@@ -1,29 +1,26 @@
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
-// const routes = require('./routes');
-
-// import apolloSever
-const { ApolloSever } = require('apollo-server-express');
-
-// import typeDefs and resolvers
+const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas');
+const { authMiddleware } = require('./utils/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// middleware
-const { authMiddleware } = require('./utils/auth');
-
 // Create Apollo server and pass schema data
-const server = new ApolloSever({
+const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware
 });
 
-server.applyMiddleware({ app });
+async function startServer() {
+  await server.start();
+  server.applyMiddleware({ app });
+}
 
+startServer();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,16 +30,14 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-// app.use(routes);
-
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-db.once('open', () => {
+db.once('open', async () => {
+  await startServer();
   app.listen(PORT, () => {
-    console.log(`API sever up and running on port ${PORT}`);
-    // GraphQL test path
-    console.log(`GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    console.log(`Server running on port ${PORT}!`);
+    console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
   });
 });
