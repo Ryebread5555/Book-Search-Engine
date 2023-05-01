@@ -11,11 +11,11 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("id_token");
+  const token = localStorage.getItem('id_token');
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
@@ -32,15 +32,16 @@ function App() {
         <>
           <Navbar />
           <Routes>
-            <Route exact path='/' component={SearchBooks} />
-            <Route exact path='/saved' component={SavedBooks} />
-            <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
+            <Route path='/' element={<SearchBooks />} />
+            <Route path='/saved' element={<SavedBooks />} />
+            <Route path= '*' element={<h1 className='display-2'>Wrong page!</h1>} />
           </Routes>
         </>
       </Router>
     </ApolloProvider>
   );
 };
+
 
 export default App;
 
