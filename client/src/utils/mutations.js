@@ -1,23 +1,26 @@
-import gql from 'graphql-tag';
+import { gql } from "@apollo/client";
 
 // mutations for users that are logged in
 export const LOGIN_USER = gql`
-    mutations loginUser($email: String!, $password: String!) {
+    mutation login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
-        token
+            token
             user {
                 _id
                 username
-                email
-                bookCount
-                savedBooks {
-                    bookId
-                    title
-                    description
-                    authors
-                    link
-                    image
-                }
+            }
+        }
+    }
+`;
+
+// mutation for adding users
+export const ADD_USER = gql`
+    mutation addUser($username: String!, $email: String!, $password: String!) {
+        addUser(username: $username, email: $email, password: $password) {
+            token
+            user {
+                _id
+                username
             }
         }
     }
@@ -25,17 +28,18 @@ export const LOGIN_USER = gql`
 
 // mutation for saving books
 export const SAVE_BOOK = gql`
-    mutation saveBook($input: bookInput!) {
-        saveBook(input: $input) {
+    mutation saveBook($bookData: BookInput!) {
+        saveBook(bookData: $bookData) {
             _id
             username
             email
+            bookCount
             savedBooks {
                 bookId
                 authors
-                image
-                description
                 title
+                description
+                image
                 link
             }
         }
@@ -44,7 +48,7 @@ export const SAVE_BOOK = gql`
 
 // mutation for removing books
 export const REMOVE_BOOK = gql`
-    mutation removeBook($bookId: String!) {
+    mutation removeBook($bookId: ID!) {
         removeBook(bookId: $bookId) {
             _id
             username
@@ -53,9 +57,9 @@ export const REMOVE_BOOK = gql`
             savedBooks {
                 bookId
                 authors
-                image
-                description
                 title
+                description
+                image
                 link
             }
         }
