@@ -21,7 +21,7 @@ This is a full stack web application using MERN Stack. This app allows users to 
 
 - Start by cloning the repo to your local machine.
 - Run `npm install` to install all dependencies (This will install dependencies located in client, Server, and Root directory).
-- cd into Client and run `npm start`, also run `npm start` in the root directory.
+- cd into root directory and run `npm run develop` to start a local development server.
 
 ## Screenshot
 
