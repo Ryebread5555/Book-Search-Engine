@@ -7,7 +7,7 @@ import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  const [ removeBook,] = useMutation(REMOVE_BOOK);
+  const [ removeBook ] = useMutation(REMOVE_BOOK);
 
   const { loading, data } = useQuery(GET_ME);
   const userData = data?.me || {};
