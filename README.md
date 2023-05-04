@@ -29,7 +29,7 @@ This is a full stack web application using MERN Stack. This app allows users to 
 
 ## Deployed
 
-Deployed application here:
+Deployed application here: https://frozen-spire-06521.herokuapp.com/
 
 ## Usage
 
